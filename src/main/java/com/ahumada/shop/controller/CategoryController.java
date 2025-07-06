@@ -1,7 +1,7 @@
-package com.miempresa.catalogo.controller;
+package com.ahumada.shop.controller;
 
-import com.miempresa.catalogo.dto.CategoriaDto;
-import com.miempresa.catalogo.service.CategoryService;
+import com.ahumada.shop.dto.CategoriaDto;
+import com.ahumada.shop.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
-package com.miempresa.catalogo.repository;
+package com.ahumada.shop.repository;
 
-import com.miempresa.catalogo.entity.Categoria;
+import com.ahumada.shop.entity.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

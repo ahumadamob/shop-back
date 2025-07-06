@@ -1,6 +1,6 @@
-package com.miempresa.catalogo.service;
+package com.ahumada.shop.service;
 
-import com.miempresa.catalogo.dto.CategoriaDto;
+import com.ahumada.shop.dto.CategoriaDto;
 
 import java.util.List;
 

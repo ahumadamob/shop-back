@@ -1,4 +1,4 @@
-package com.miempresa.catalogo.dto;
+package com.ahumada.shop.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

@@ -1,9 +1,9 @@
-package com.miempresa.catalogo.service;
+package com.ahumada.shop.service;
 
-import com.miempresa.catalogo.dto.CategoriaDto;
-import com.miempresa.catalogo.entity.Categoria;
-import com.miempresa.catalogo.exception.ResourceNotFoundException;
-import com.miempresa.catalogo.repository.CategoriaRepository;
+import com.ahumada.shop.dto.CategoriaDto;
+import com.ahumada.shop.entity.Categoria;
+import com.ahumada.shop.exception.ResourceNotFoundException;
+import com.ahumada.shop.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

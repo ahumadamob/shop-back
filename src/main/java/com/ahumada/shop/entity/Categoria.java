@@ -1,4 +1,4 @@
-package com.miempresa.catalogo.entity;
+package com.ahumada.shop.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package com.miempresa.catalogo.exception;
+package com.ahumada.shop.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 
