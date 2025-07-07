@@ -15,7 +15,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoriaDto {
 
-    private Long id;
     private String nombre;
     private String urlAmigable;
     private Long padreId;

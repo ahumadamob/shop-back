@@ -16,7 +16,6 @@ public class CategoriaMapper {
             return null;
         }
         CategoriaDto.CategoriaDtoBuilder builder = CategoriaDto.builder()
-                .id(entity.getId())
                 .nombre(entity.getNombre())
                 .urlAmigable(entity.getUrlAmigable())
                 .padreId(entity.getPadre() != null ? entity.getPadre().getId() : null);
@@ -46,8 +45,6 @@ public class CategoriaMapper {
             Set<Categoria> hijos = dto.getHijos().stream().map(this::toEntity).collect(Collectors.toSet());
             builder.hijos(hijos);
         }
-        Categoria categoria = builder.build();
-        categoria.setId(dto.getId());
-        return categoria;
+        return builder.build();
     }
 }
