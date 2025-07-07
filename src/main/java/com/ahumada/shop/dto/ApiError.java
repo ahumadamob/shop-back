@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ApiError {
 
-	private String field;
-	private String message;
+    private String type;
+    private String field;
+    private String message;
 }
