@@ -1,9 +1,10 @@
-package com.ahumada.shop.service;
+package com.ahumadamob.shop.service.jpa;
 
 import com.ahumada.shop.dto.CategoriaDto;
 import com.ahumada.shop.entity.Categoria;
 import com.ahumada.shop.exception.ResourceNotFoundException;
 import com.ahumada.shop.repository.CategoriaRepository;
+import com.ahumada.shop.service.ICategoriaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryServiceImpl implements CategoryService {
+public class CategoriaServiceImpl implements ICategoriaService {
 
     private final CategoriaRepository categoriaRepository;
 

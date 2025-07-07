@@ -4,7 +4,7 @@ import com.ahumada.shop.dto.CategoriaDto;
 
 import java.util.List;
 
-public interface CategoryService {
+public interface ICategoriaService {
 
     List<CategoriaDto> getAllCategories();
 
