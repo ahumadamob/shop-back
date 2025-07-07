@@ -2,10 +2,12 @@ package com.ahumada.shop.service.jpa;
 
 import com.ahumada.shop.entity.Categoria;
 import com.ahumada.shop.exception.ResourceNotFoundException;
+import com.ahumada.shop.exception.DuplicateResourceException;
 import com.ahumada.shop.repository.CategoriaRepository;
 import com.ahumada.shop.service.ICategoriaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.List;
 
@@ -36,7 +38,11 @@ public class CategoriaServiceImpl implements ICategoriaService {
         } else {
             categoria.setPadre(null);
         }
-        categoriaRepository.save(categoria);
+        try {
+            categoriaRepository.save(categoria);
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateResourceException("Categoría duplicada");
+        }
         return categoria;
     }
 
@@ -56,7 +62,11 @@ public class CategoriaServiceImpl implements ICategoriaService {
             }
         }
         existing.setPadre(nuevoPadre);
-        categoriaRepository.save(existing);
+        try {
+            categoriaRepository.save(existing);
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateResourceException("Categoría duplicada");
+        }
         return existing;
     }
 
