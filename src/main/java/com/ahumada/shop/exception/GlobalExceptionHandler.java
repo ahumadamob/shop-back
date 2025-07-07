@@ -14,16 +14,9 @@ import java.util.Collections;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponse<Void>> handleResourceNotFound(ResourceNotFoundException ex) {
+    public ResponseEntity<ApiError> handleResourceNotFound(ResourceNotFoundException ex) {
         ApiError error = ApiError.builder().message(ex.getMessage()).build();
-        ApiResponse<Void> response = ApiResponse.<Void>builder()
-                .success(false)
-                .status(HttpStatus.NOT_FOUND.value())
-                .message(ex.getMessage())
-                .timestamp(Instant.now())
-                .errors(Collections.singletonList(error))
-                .build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(Exception.class)
