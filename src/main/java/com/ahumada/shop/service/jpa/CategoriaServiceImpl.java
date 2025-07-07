@@ -1,4 +1,4 @@
-package com.ahumadamob.shop.service.jpa;
+package com.ahumada.shop.service.jpa;
 
 import com.ahumada.shop.entity.Categoria;
 import com.ahumada.shop.exception.ResourceNotFoundException;
