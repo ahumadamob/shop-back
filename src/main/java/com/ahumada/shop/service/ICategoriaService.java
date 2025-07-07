@@ -1,20 +1,20 @@
 package com.ahumada.shop.service;
 
-import com.ahumada.shop.dto.CategoriaDto;
+import com.ahumada.shop.entity.Categoria;
 
 import java.util.List;
 
 public interface ICategoriaService {
 
-    List<CategoriaDto> getAllCategories();
+    List<Categoria> getAllCategories();
 
-    CategoriaDto getCategoryById(Long id);
+    Categoria getCategoryById(Long id);
 
-    CategoriaDto createCategory(CategoriaDto dto);
+    Categoria createCategory(Categoria categoria);
 
-    CategoriaDto updateCategory(Long id, CategoriaDto dto);
+    Categoria updateCategory(Long id, Categoria categoria);
 
     void deleteCategory(Long id);
 
-    List<CategoriaDto> getCategoryTree();
+    List<Categoria> getCategoryTree();
 }

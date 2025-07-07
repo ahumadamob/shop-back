@@ -1,6 +1,5 @@
 package com.ahumadamob.shop.service.jpa;
 
-import com.ahumada.shop.dto.CategoriaDto;
 import com.ahumada.shop.entity.Categoria;
 import com.ahumada.shop.exception.ResourceNotFoundException;
 import com.ahumada.shop.repository.CategoriaRepository;
@@ -9,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,50 +16,48 @@ public class CategoriaServiceImpl implements ICategoriaService {
     private final CategoriaRepository categoriaRepository;
 
     @Override
-    public List<CategoriaDto> getAllCategories() {
-        return categoriaRepository.findAll().stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public List<Categoria> getAllCategories() {
+        return categoriaRepository.findAll();
     }
 
     @Override
-    public CategoriaDto getCategoryById(Long id) {
-        Categoria categoria = categoriaRepository.findById(id)
+    public Categoria getCategoryById(Long id) {
+        return categoriaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
-        return toDto(categoria);
     }
 
     @Override
-    public CategoriaDto createCategory(CategoriaDto dto) {
-        Categoria categoria = new Categoria();
-        categoria.setNombre(dto.getNombre());
-        categoria.setUrlAmigable(dto.getUrlAmigable());
-        if (dto.getPadreId() != null) {
-            Categoria padre = categoriaRepository.findById(dto.getPadreId())
+    public Categoria createCategory(Categoria categoria) {
+        Categoria parent = null;
+        if (categoria.getPadre() != null && categoria.getPadre().getId() != null) {
+            parent = categoriaRepository.findById(categoria.getPadre().getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Padre no encontrado"));
-            categoria.setPadre(padre);
+            categoria.setPadre(parent);
+        } else {
+            categoria.setPadre(null);
         }
         categoriaRepository.save(categoria);
-        return toDto(categoria);
+        return categoria;
     }
 
     @Override
-    public CategoriaDto updateCategory(Long id, CategoriaDto dto) {
-        Categoria categoria = categoriaRepository.findById(id)
+    public Categoria updateCategory(Long id, Categoria categoria) {
+        Categoria existing = categoriaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
-        categoria.setNombre(dto.getNombre());
-        categoria.setUrlAmigable(dto.getUrlAmigable());
+        existing.setNombre(categoria.getNombre());
+        existing.setUrlAmigable(categoria.getUrlAmigable());
+
         Categoria nuevoPadre = null;
-        if (dto.getPadreId() != null) {
-            nuevoPadre = categoriaRepository.findById(dto.getPadreId())
+        if (categoria.getPadre() != null && categoria.getPadre().getId() != null) {
+            nuevoPadre = categoriaRepository.findById(categoria.getPadre().getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Padre no encontrado"));
-            if (isDescendant(categoria, nuevoPadre)) {
+            if (isDescendant(existing, nuevoPadre)) {
                 throw new IllegalArgumentException("Ciclo en jerarquía de categorías");
             }
         }
-        categoria.setPadre(nuevoPadre);
-        categoriaRepository.save(categoria);
-        return toDto(categoria);
+        existing.setPadre(nuevoPadre);
+        categoriaRepository.save(existing);
+        return existing;
     }
 
     @Override
@@ -72,20 +68,8 @@ public class CategoriaServiceImpl implements ICategoriaService {
     }
 
     @Override
-    public List<CategoriaDto> getCategoryTree() {
-        return categoriaRepository.findByPadreIsNull().stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
-
-    private CategoriaDto toDto(Categoria entity) {
-        return CategoriaDto.builder()
-                .id(entity.getId())
-                .nombre(entity.getNombre())
-                .urlAmigable(entity.getUrlAmigable())
-                .padreId(entity.getPadre() != null ? entity.getPadre().getId() : null)
-                .hijos(entity.getHijos().stream().map(this::toDto).collect(Collectors.toList()))
-                .build();
+    public List<Categoria> getCategoryTree() {
+        return categoriaRepository.findByPadreIsNull();
     }
 
     private boolean isDescendant(Categoria origin, Categoria target) {
