@@ -1,7 +1,8 @@
 package com.ahumada.shop.controller;
 
 import com.ahumada.shop.dto.ApiResponse;
-import com.ahumada.shop.dto.CategoriaDto;
+import com.ahumada.shop.dto.CategoriaRequestDto;
+import com.ahumada.shop.dto.CategoriaResponseDto;
 import com.ahumada.shop.entity.Categoria;
 import com.ahumada.shop.mapper.CategoriaMapper;
 import com.ahumada.shop.service.ICategoriaService;
@@ -22,10 +23,10 @@ public class CategoriaController {
     private final CategoriaMapper categoriaMapper;
 
     @GetMapping("/")
-    public ResponseEntity<ApiResponse<List<CategoriaDto>>> obtenerTodasLasCategorias() {
+    public ResponseEntity<ApiResponse<List<CategoriaResponseDto>>> obtenerTodasLasCategorias() {
         List<Categoria> categorias = categoriaService.getAllCategories();
-        List<CategoriaDto> dtos = categoriaMapper.toDtoList(categorias);
-        ApiResponse<List<CategoriaDto>> response = ApiResponse.<List<CategoriaDto>>builder()
+        List<CategoriaResponseDto> dtos = categoriaMapper.toResponseDtoList(categorias);
+        ApiResponse<List<CategoriaResponseDto>> response = ApiResponse.<List<CategoriaResponseDto>>builder()
                 .success(true)
                 .status(HttpStatus.OK.value())
                 .data(dtos)
@@ -34,36 +35,36 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<CategoriaDto>> obtenerCategoriaPorId(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<CategoriaResponseDto>> obtenerCategoriaPorId(@PathVariable Long id) {
         Categoria categoria = categoriaService.getCategoryById(id);
-        ApiResponse<CategoriaDto> response = ApiResponse.<CategoriaDto>builder()
+        ApiResponse<CategoriaResponseDto> response = ApiResponse.<CategoriaResponseDto>builder()
                 .success(true)
                 .status(HttpStatus.OK.value())
-                .data(categoriaMapper.toDto(categoria))
+                .data(categoriaMapper.toResponseDto(categoria))
                 .build();
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/")
-    public ResponseEntity<ApiResponse<CategoriaDto>> crearCategoria(@RequestBody @Validated CategoriaDto dto) {
+    public ResponseEntity<ApiResponse<CategoriaResponseDto>> crearCategoria(@RequestBody @Validated CategoriaRequestDto dto) {
         Categoria entidad = categoriaMapper.toEntity(dto);
         Categoria creado = categoriaService.createCategory(entidad);
-        ApiResponse<CategoriaDto> response = ApiResponse.<CategoriaDto>builder()
+        ApiResponse<CategoriaResponseDto> response = ApiResponse.<CategoriaResponseDto>builder()
                 .success(true)
                 .status(HttpStatus.CREATED.value())
-                .data(categoriaMapper.toDto(creado))
+                .data(categoriaMapper.toResponseDto(creado))
                 .build();
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<CategoriaDto>> actualizarCategoria(@PathVariable Long id, @RequestBody @Validated CategoriaDto dto) {
+    public ResponseEntity<ApiResponse<CategoriaResponseDto>> actualizarCategoria(@PathVariable Long id, @RequestBody @Validated CategoriaRequestDto dto) {
         Categoria entidad = categoriaMapper.toEntity(dto);
         Categoria actualizado = categoriaService.updateCategory(id, entidad);
-        ApiResponse<CategoriaDto> response = ApiResponse.<CategoriaDto>builder()
+        ApiResponse<CategoriaResponseDto> response = ApiResponse.<CategoriaResponseDto>builder()
                 .success(true)
                 .status(HttpStatus.OK.value())
-                .data(categoriaMapper.toDto(actualizado))
+                .data(categoriaMapper.toResponseDto(actualizado))
                 .build();
         return ResponseEntity.ok(response);
     }
@@ -79,10 +80,10 @@ public class CategoriaController {
     }
 
     @GetMapping("/arbol")
-    public ResponseEntity<ApiResponse<List<CategoriaDto>>> obtenerArbolCategorias() {
+    public ResponseEntity<ApiResponse<List<CategoriaResponseDto>>> obtenerArbolCategorias() {
         List<Categoria> arbol = categoriaService.getCategoryTree();
-        List<CategoriaDto> dtos = categoriaMapper.toDtoList(arbol);
-        ApiResponse<List<CategoriaDto>> response = ApiResponse.<List<CategoriaDto>>builder()
+        List<CategoriaResponseDto> dtos = categoriaMapper.toResponseDtoList(arbol);
+        ApiResponse<List<CategoriaResponseDto>> response = ApiResponse.<List<CategoriaResponseDto>>builder()
                 .success(true)
                 .status(HttpStatus.OK.value())
                 .data(dtos)
