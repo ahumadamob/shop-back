@@ -7,7 +7,9 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +18,8 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"padre", "hijos"})
+@ToString(exclude = {"padre", "hijos"})
 @Entity
 @Table(name = "categorias", uniqueConstraints = @UniqueConstraint(columnNames = "url_amigable"))
 public class Categoria extends BaseEntity {
