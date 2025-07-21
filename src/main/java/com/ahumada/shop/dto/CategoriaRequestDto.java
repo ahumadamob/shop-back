@@ -17,6 +17,5 @@ public class CategoriaRequestDto {
 
     private String nombre;
     private String urlAmigable;
-    private Long padreId;
 }
 

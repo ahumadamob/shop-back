@@ -7,23 +7,12 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"padre", "hijos"})
-@ToString(exclude = {"padre", "hijos"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "categorias", uniqueConstraints = @UniqueConstraint(columnNames = "url_amigable"))
 public class Categoria extends BaseEntity {
@@ -38,13 +27,4 @@ public class Categoria extends BaseEntity {
     @Pattern(regexp = "^[a-z0-9\\-]+$", message = "La URL amigable s\u00f3lo puede contener min\u00fasculas, d\u00edgitos y guiones.")
     private String urlAmigable;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    @JsonIgnore
-    private Categoria padre;
-
-    @OneToMany(mappedBy = "padre", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    @JsonIgnore
-    private Set<Categoria> hijos = new HashSet<>();
 }

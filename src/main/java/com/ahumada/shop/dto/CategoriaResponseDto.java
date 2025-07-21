@@ -5,28 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
-import java.util.List;
 
 /**
  * DTO para representar categorias en las respuestas de la API.
- * Incluye el identificador y la estructura completa de hijos.
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = "hijos")
-@ToString(exclude = "hijos")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoriaResponseDto {
 
     private Long id;
     private String nombre;
     private String urlAmigable;
-    private Long padreId;
-    private List<CategoriaResponseDto> hijos;
+    
 }
 
