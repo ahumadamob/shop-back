@@ -30,14 +30,7 @@ public class CategoriaServiceImpl implements ICategoriaService {
 
     @Override
     public Categoria createCategory(Categoria categoria) {
-        Categoria parent = null;
-        if (categoria.getPadre() != null && categoria.getPadre().getId() != null) {
-            parent = categoriaRepository.findById(categoria.getPadre().getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Padre no encontrado"));
-            categoria.setPadre(parent);
-        } else {
-            categoria.setPadre(null);
-        }
+        // Las categorías ya no tienen relaciones jerárquicas
         try {
             categoriaRepository.save(categoria);
         } catch (DataIntegrityViolationException e) {
@@ -53,15 +46,6 @@ public class CategoriaServiceImpl implements ICategoriaService {
         existing.setNombre(categoria.getNombre());
         existing.setUrlAmigable(categoria.getUrlAmigable());
 
-        Categoria nuevoPadre = null;
-        if (categoria.getPadre() != null && categoria.getPadre().getId() != null) {
-            nuevoPadre = categoriaRepository.findById(categoria.getPadre().getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Padre no encontrado"));
-            if (isDescendant(existing, nuevoPadre)) {
-                throw new IllegalArgumentException("Ciclo en jerarquía de categorías");
-            }
-        }
-        existing.setPadre(nuevoPadre);
         try {
             categoriaRepository.save(existing);
         } catch (DataIntegrityViolationException e) {
@@ -79,20 +63,6 @@ public class CategoriaServiceImpl implements ICategoriaService {
 
     @Override
     public List<Categoria> getCategoryTree() {
-        return categoriaRepository.findByPadreIsNull();
-    }
-
-    private boolean isDescendant(Categoria origin, Categoria target) {
-        if (target == null) {
-            return false;
-        }
-        Categoria parent = target.getPadre();
-        while (parent != null) {
-            if (parent.equals(origin)) {
-                return true;
-            }
-            parent = parent.getPadre();
-        }
-        return false;
+        return categoriaRepository.findAll();
     }
 }

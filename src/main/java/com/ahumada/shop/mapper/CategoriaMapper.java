@@ -18,11 +18,7 @@ public class CategoriaMapper {
         CategoriaResponseDto.CategoriaResponseDtoBuilder builder = CategoriaResponseDto.builder()
                 .id(entity.getId())
                 .nombre(entity.getNombre())
-                .urlAmigable(entity.getUrlAmigable())
-                .padreId(entity.getPadre() != null ? entity.getPadre().getId() : null);
-        if (entity.getHijos() != null && !entity.getHijos().isEmpty()) {
-            builder.hijos(entity.getHijos().stream().map(this::toResponseDto).collect(Collectors.toList()));
-        }
+                .urlAmigable(entity.getUrlAmigable());
         return builder.build();
     }
 
@@ -34,14 +30,9 @@ public class CategoriaMapper {
         if (dto == null) {
             return null;
         }
-        Categoria.CategoriaBuilder builder = Categoria.builder()
+        return Categoria.builder()
                 .nombre(dto.getNombre())
-                .urlAmigable(dto.getUrlAmigable());
-        if (dto.getPadreId() != null) {
-            Categoria padre = new Categoria();
-            padre.setId(dto.getPadreId());
-            builder.padre(padre);
-        }
-        return builder.build();
+                .urlAmigable(dto.getUrlAmigable())
+                .build();
     }
 }

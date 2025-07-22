@@ -9,9 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -30,11 +27,4 @@ public class Categoria extends BaseEntity {
     @Pattern(regexp = "^[a-z0-9\\-]+$", message = "La URL amigable s\u00f3lo puede contener min\u00fasculas, d\u00edgitos y guiones.")
     private String urlAmigable;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Categoria padre;
-
-    @OneToMany(mappedBy = "padre", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private Set<Categoria> hijos = new HashSet<>();
 }

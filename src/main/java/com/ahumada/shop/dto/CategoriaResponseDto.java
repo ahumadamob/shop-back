@@ -6,11 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 /**
  * DTO para representar categorias en las respuestas de la API.
- * Incluye el identificador y la estructura completa de hijos.
  */
 @Data
 @Builder
@@ -22,7 +20,6 @@ public class CategoriaResponseDto {
     private Long id;
     private String nombre;
     private String urlAmigable;
-    private Long padreId;
-    private List<CategoriaResponseDto> hijos;
+    
 }
 
